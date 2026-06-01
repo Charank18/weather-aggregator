@@ -1,0 +1,23 @@
+version: '3.9'
+
+services:
+
+  postgres:
+    image: postgres:16
+    container_name: weather-postgres
+
+    environment:
+      POSTGRES_USER: weather
+      POSTGRES_PASSWORD: weather
+      POSTGRES_DB: weatherdb
+      TZ: UTC
+      PGTZ: UTC
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

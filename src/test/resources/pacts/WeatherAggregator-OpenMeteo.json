@@ -1,0 +1,83 @@
+{
+  "consumer": {
+    "name": "WeatherAggregator"
+  },
+  "provider": {
+    "name": "OpenMeteo"
+  },
+  "interactions": [
+    {
+      "type": "Synchronous/HTTP",
+      "description": "Geocoding search for London",
+      "providerStates": [
+        {
+          "name": "City London exists"
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/v1/search",
+        "query": {
+          "name": ["London"],
+          "count": ["1"],
+          "language": ["en"],
+          "format": ["json"]
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "results": [
+            {
+              "latitude": 51.5,
+              "longitude": -0.1,
+              "name": "London",
+              "country": "United Kingdom"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Synchronous/HTTP",
+      "description": "Forecast for coordinates",
+      "providerStates": [
+        {
+          "name": "Current weather for coordinates"
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/v1/forecast",
+        "query": {
+          "latitude": ["51.5"],
+          "longitude": ["-0.1"],
+          "current_weather": ["true"],
+          "wind_speed_unit": ["kmh"]
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "current_weather": {
+            "temperature": 22.4,
+            "windspeed": 14.2,
+            "weathercode": 3,
+            "time": "2024-06-01T14:00"
+          }
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "4.0"
+    }
+  }
+}
